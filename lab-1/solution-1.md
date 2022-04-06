@@ -13,11 +13,11 @@
 
 ### 问题3
 
-由于X轴与x轴平行，故x轴只有缩放变换（缩放因子为$\alpha$）
+由于$X$轴与$x$轴平行，故$x$轴只有缩放变换（缩放因子为$\alpha$）
 $$
 x-x_0=\alpha X\Rightarrow x=\alpha X+x_0
 $$
-对于y轴，如图，考虑线段PQ
+对于$y$轴，如图，考虑线段$PQ$
 
 <img src="D:\yszheng\Pictures\Typora\image-20220314220957272.png" alt="image-20220314220957272" style="zoom: 33%;" />
 $$
