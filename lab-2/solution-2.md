@@ -85,6 +85,10 @@ $$
 
 对双目视觉图像进行矫正，结果如下
 
+<img src="D:\yszheng\Pictures\Typora\solution5-img-rectification.png" alt="solution5-img-rectification" style="zoom:25%;" />
+
+改变图像显示范围参数（shape）可得矫正图像如下
+
 <img src="D:\yszheng\Pictures\Typora\left-rectification.png" alt="left-rectification" style="zoom:33%;" />
 
 <center>left image after Rectification</center>
