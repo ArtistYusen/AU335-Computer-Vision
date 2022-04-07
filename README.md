@@ -2,8 +2,8 @@
 
 Personal SJTU Computer Vision Lab &amp; Project.
 
-Lab solutioins are in the `/lab-*/solution-*.pdf`. The _.pdf file_ is exported from the _.md file_, you can directly modify the _.md file_ which in `/lab-*/solution-*.md`.
+Lab solutioins are in the `/lab-*/solution-*.pdf`. The _.pdf_ files are exported from the _.md_ files, you can directly modify the _.md_ files which in `/lab-*/solution-*.md`.
 
-_.mlx file_ please use MATLAB's live editor to open it, you can also convert it to _.m file_.
+_.mlx_ files please use MATLAB's live editor to open them, you can also convert them to _.m_ files.
 
 Hope it helps you :D
