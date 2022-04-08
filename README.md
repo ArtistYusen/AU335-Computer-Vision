@@ -1,6 +1,6 @@
 # SJTU-AU335
 
-Personal SJTU Computer Vision Lab &amp; Project.
+Personal SJTU Computer Vision Labs Solutions.
 
 Lab solutioins are in the `/lab-*/solution-*.pdf`. The _.pdf_ files are exported from the _.md_ files, you can directly modify the _.md_ files which in `/lab-*/solution-*.md`.
 
