@@ -1,24 +1,21 @@
-function licenseNumber = easy(path, whiteCountPerColumnThreshold, verbose)
+function licenseNumber = easy(path, options)
 %EASY 用于识别easy模式中车牌的简单算法
 %   author: Yusen Zheng
 %   input1: path: 车牌图像的路径
-%   input2: whiteCountPerColumnThreshold: 白色像素点数目的阈值
-%   input3: verbose: 是否打印详细信息
+%   option1: whiteCountPerColumnThreshold: 白色像素点数目的阈值
+%   option2: verbose: 是否打印详细信息
 %   output: licenseNumber: 车牌号码 
 
     %% default value
 
-    switch nargin
-        case 1
-            whiteCountPerColumnThreshold = 5;
-            verbose = true;
-        case 2
-            verbose = true;
-        case 3
-            % do nothing
-        otherwise
-            error('Wrong number of input arguments');
-    end 
+    arguments
+        path (1,1) string
+        options.whiteCountPerColumnThreshold (1,1) double = 5
+        options.verbose (1,1) logical = true
+    end
+
+    whiteCountPerColumnThreshold = options.whiteCountPerColumnThreshold;
+    verbose = options.verbose;
 
     %% 字符分割
 
