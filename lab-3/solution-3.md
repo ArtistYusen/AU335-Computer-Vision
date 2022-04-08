@@ -79,13 +79,13 @@ $$
 Input：输入图像（RGB像素点）
 Output：输出图像（经过图像分割后的RGB像素点）	
 
-1. 将输入的图像由RGB色彩空间转换至L\*U\*V\*空间
-1. 选择合适的核函数（即选择window size，aka bindwidth）
+1. 确定初始点，进行聚类
+1. 选择合适的核函数
 1. 计算每个样本的均值漂移向量
 1. 对每个样本点以均值漂移向量进行平移
 1. 重复3..4，直至样本点收敛
 1. 收敛到同一点的样本认为属于同一类聚簇，并做标记（如上色）
-1. 将标记后的图像由L\*U\*V\*空间转换回RGB色彩空间，得到输出图像
+1. 从未被分类的点中随机选取初始点，重复1..6
 
 ![image-20220406222803871](D:\yszheng\Pictures\Typora\image-20220406222803871.png)
 
@@ -101,7 +101,7 @@ Output：输出图像（经过图像分割后的RGB像素点）
 
   若窗口过大，图像分割不精确，可能会丢失部分聚簇
   
-- **判断是否收敛的阈值**
+- **类别合并的阈值**
 
 ### 问题4
 
@@ -173,39 +173,19 @@ sprintf(['线条数为' num2str(length(lines))])
 
 ![solution4-img-1](D:\yszheng\Pictures\Typora\solution4-img-1.png)
 
-尝试使用不同的参数，其中$\rho$步长取值$1,2$，$\theta$步长取值$0.5,1$，线条交点数目置信阈值$threshold$取值$150,250$。
+尝试使用不同的参数，部分结果如下
 
-```matlab
-figure, tiledlayout(4,2)
-for rho_step = 1:2
-    for theta_step = .5:.5:1
-        for threshold = 150:100:250
-            [H,T,R] = hough(BW,'RhoResolution',rho_step,'Theta',-90:theta_step:89);
-            P  = houghpeaks(H,20,'threshold',threshold);
-            lines = houghlines(BW,T,R,P,'FillGap',5,'MinLength',7);
-    
-            nexttile, imshow(RGB), hold on
-            for k = 1:length(lines)
-               xy = [lines(k).point1; lines(k).point2];
-               plot(xy(:,1),xy(:,2),'LineWidth',2,'Color','green');
-               plot(xy(1,1),xy(1,2),'x','LineWidth',2,'Color','magenta');
-               plot(xy(2,1),xy(2,2),'x','LineWidth',2,'Color','red');
-            end
-            title({['ρ=' num2str(rho_step) ' θ=' num2str(theta_step) ' threshold=' num2str(threshold)]; ...
-                ['检测线条数为' num2str(length(lines))]})
-        end 
-   end
-end
-```
-
-结果如下
-
-![solution4-img-2](D:\yszheng\Pictures\Typora\solution4-img-2-164930906904410.png)
+![solution4-img-2](D:\yszheng\Pictures\Typora\solution4-img-2-16493815353921.png)
 
 由此可见，使用不同的参数会使得线条数目检测结果不同。其中，
 
-- $\rho,\theta$步长对检测线条数的影响较复杂，与具体图像有关。一般而言，$\rho,\theta$步长越大，可能有更多的直线被忽略，检测到的线条越少。
+- $\rho$步长$rhoresolution$对检测线条数的影响较复杂，与具体图像有关。一般而言，增大$rhoresolution$，直线先稀疏后稠密。
+- $\theta$范围越大，直线越稠密。
+- $\theta$步长越大，每次检索的角度跨度越大，直线越稀疏。
 - 线条交点数目置信阈值$threshold$的影响较显著，$threshold$越大，检测到的线条数越少。
+- $houghpeaks$中的$numpeaks$越大，选取的峰值数目越大，直线越稠密。
+- $houghline$中的$fillgap$越大，合并直线阈值越大，直线越稠密。
+- $houghline$中的$minlength$越大，被识别为直线的最小长度越大，直线越稀疏。
 
 ### 问题5
 
@@ -213,11 +193,13 @@ end
 
 <img src="D:\yszheng\Pictures\Typora\img.png" alt="img" style="zoom:33%;" />
 
-使用**线拟合**对各文字行插入删除线，思路为先对图像进行形态学膨胀和腐蚀操作，再进行hough变化进行线检测。由于部分行高度较大，会被检测多次，最后需对检测得到的线段做合并处理，结果如下
+以下使用两种思路对文本插入删除线。
+
+**第一种思路**为先对图像进行形态学膨胀和腐蚀操作，再进行hough变化进行线检测。由于部分行高度较大，会被检测多次，最后需对检测得到的线段做合并处理，结果如下
 
 <img src="D:\yszheng\Pictures\Typora\solution5-img-1-16493359570681.png" alt="solution5-img-1" style="zoom: 67%;" />
 
-另外，我也尝试使用了一种**基于像素点极值分割字符**的方式对各文字行插入删除线，个人感觉这种方法比线拟合精度更高，结果如下
+**第二种思路**为计算每行及其对应列的像素点分布，从而判断出存在文字的矩形框范围，进而对各文字行插入删除线，结果如下
 
 ![solution5-img](D:\yszheng\Pictures\Typora\solution5-img-16487718609291.png)
 
