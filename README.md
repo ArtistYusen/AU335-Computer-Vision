@@ -1,6 +1,6 @@
 # SJTU-AU335
 
-Personal SJTU Computer Vision Labs Solutions.
+This repo is my solutions to labs in the course SJTU-AU335 Computer Vision.
 
 Lab solutioins are in the `/lab-*/solution-*.pdf`. The _.pdf_ files are exported from the _.md_ files, you can directly modify the _.md_ files which in `/lab-*/solution-*.md`.
 
